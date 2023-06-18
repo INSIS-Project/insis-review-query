@@ -24,7 +24,10 @@ import com.isep.acme.repositories.ReviewRepository;
 import com.isep.acme.services.ProductService;
 import com.isep.acme.services.ReviewService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class ReviewMapper {
 
     @Autowired
@@ -40,7 +43,8 @@ public class ReviewMapper {
          for (Vote vote : review.getVotes()) {
              VoteReviewDTO voteDTO = new VoteReviewDTO( 
                  vote.getVoteID(),
-                 vote.getVoteType()
+                 vote.getVoteType(),
+                 vote.getUser()
              );
              votesDTO.add(voteDTO);
          }
@@ -137,6 +141,8 @@ public class ReviewMapper {
                 Vote vote = new Vote();
                 vote.setVoteID(voteReviewDTO.getVoteId());
                 vote.setVoteType(voteReviewDTO.getVoteType());
+                log.info("test", voteReviewDTO.getUser());
+                vote.setUser(voteReviewDTO.getUser());
                 vote.setReview(reviewToUpdate);
                 reviewCreated.addVote(vote);
             }
